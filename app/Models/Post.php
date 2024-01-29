@@ -29,19 +29,22 @@ class Post
     {
         // i think the main idea of utilizing Yaml package is to convert
         // any file onto a an object that can be easily dealt with?
-        return collect(File::files(resource_path('posts')))
-            ->map(fn ($file) => YamlFrontMatter::parseFile($file))
-            ->map(
-                fn ($document) =>
-                new Post(
-                    $document->slug,
-                    $document->title,
-                    $document->excerpt,
-                    $document->body(),
-                    $document->date
+        // Cache::rememberForever(key, value (func))
+        return Cache::rememberForever("posts.all", function () {
+            return collect(File::files(resource_path('posts')))
+                ->map(fn ($file) => YamlFrontMatter::parseFile($file))
+                ->map(
+                    fn ($document) =>
+                    new Post(
+                        $document->slug,
+                        $document->title,
+                        $document->excerpt,
+                        $document->body(),
+                        $document->date
+                    )
                 )
-            )
-            ->sortByDesc("date");
+                ->sortByDesc("date");
+        });
     }
 
     public static function find($slug)
