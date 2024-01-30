@@ -10,11 +10,11 @@ use Spatie\YamlFrontMatter\YamlFrontMatter;
 class Post
 {
 
-    public $slug;
-    public $title;
-    public $excerpt;
-    public $body;
-    public $date;
+    private $slug;
+    private $title;
+    private $excerpt;
+    private $body;
+    private $date;
 
     public function __construct($slug, $title, $excerpt, $body, $date)
     {
@@ -23,6 +23,31 @@ class Post
         $this->excerpt = $excerpt;
         $this->body = $body;
         $this->date = $date;
+    }
+
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    public function getExcerpt()
+    {
+        return $this->excerpt;
+    }
+
+    public function getBody()
+    {
+        return $this->body;
+    }
+
+    public function getDate()
+    {
+        return $this->date;
     }
 
     public static function all()
